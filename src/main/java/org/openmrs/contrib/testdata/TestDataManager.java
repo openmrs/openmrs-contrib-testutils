@@ -24,7 +24,6 @@ import java.util.Date;
 import java.util.List;
 
 import static org.databene.benerator.util.SimpleRandom.randomInt;
-import static org.databene.benerator.util.SimpleRandom.randomValue;
 
 @Component
 public class TestDataManager {
@@ -104,11 +103,11 @@ public class TestDataManager {
     }
 
     public PatientBuilder randomPatient() {
-        String gender = randomValue(GENDERS);
+        String gender = randomElement(GENDERS);
         return patient()
                 .age(randomInt(1, 90))
                 .gender(gender)
-                .name(randomValue(gender.equals("M") ? MALE_FIRST_NAMES : FEMALE_FIRST_NAMES), randomValue(FAMILY_NAMES))
+                .name(randomElement(gender.equals("M") ? MALE_FIRST_NAMES : FEMALE_FIRST_NAMES), randomElement(FAMILY_NAMES))
                 .identifier(findPatientIdentifierTypeWithNoCheckDigit(), generateRandomIdentifier(), pickRandomLocation());
     }
 
@@ -164,6 +163,10 @@ public class TestDataManager {
 
     private <T> T randomElement(List<T> candidates) {
         return candidates.get(randomInt(0, candidates.size() - 1));
+    }
+
+    private <T> T randomElement(T[] candidates) {
+        return candidates[randomInt(0, candidates.length - 1)];
     }
 
     private Date randomRecentDate() {
