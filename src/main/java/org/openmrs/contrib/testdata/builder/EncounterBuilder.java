@@ -4,6 +4,7 @@ import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.Patient;
+import org.openmrs.User;
 import org.openmrs.Visit;
 import org.openmrs.contrib.testdata.TestDataManager;
 
@@ -54,4 +55,65 @@ public class EncounterBuilder extends TestDataBuilder<Encounter> {
         entity.setEncounterDatetime(date);
         return this;
     }
+
+    public EncounterBuilder encounterDatetime(String date) {
+        entity.setEncounterDatetime(parseDate(date));
+        return this;
+    }
+
+    public EncounterBuilder dateCreated(Date dateCreated) {
+        entity.setDateCreated(dateCreated);
+        return this;
+    }
+
+    public EncounterBuilder dateCreated(String dateCreated) {
+        entity.setDateCreated(parseDate(dateCreated));
+        return this;
+    }
+
+    public EncounterBuilder creator(User creator) {
+        entity.setCreator(creator);
+        return this;
+    }
+
+    public EncounterBuilder changedBy(User by) {
+        entity.setChangedBy(by);
+        return this;
+    }
+
+    public EncounterBuilder dateChanged(Date changed) {
+        entity.setDateChanged(changed);
+        return this;
+    }
+
+    public EncounterBuilder dateChanged(String changed) {
+        entity.setDateChanged(parseDate(changed));
+        return this;
+    }
+
+    public EncounterBuilder voided(boolean voided) {
+        entity.setVoided(voided);
+        return this;
+    }
+
+    public EncounterBuilder voidedBy(User voidedBy) {
+        entity.setVoidedBy(voidedBy);
+        return this;
+    }
+
+    public EncounterBuilder dateVoided(Date dateVoided) {
+        entity.setDateCreated(dateVoided);
+        return this;
+    }
+
+    public EncounterBuilder dateVoided(String dateVoided) {
+        entity.setDateCreated(parseDate(dateVoided));
+        return this;
+    }
+
+    public EncounterBuilder voidReason(String voidReason) {
+        entity.setVoidReason(voidReason);
+        return this;
+    }
+
 }

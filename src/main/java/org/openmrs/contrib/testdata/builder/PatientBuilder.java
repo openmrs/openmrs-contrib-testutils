@@ -1,6 +1,7 @@
 package org.openmrs.contrib.testdata.builder;
 
 import org.openmrs.Concept;
+import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.PatientIdentifier;
 import org.openmrs.PatientIdentifierType;
@@ -40,13 +41,29 @@ public class PatientBuilder extends TestDataBuilder<Patient> {
         return this;
     }
 
+    public PatientBuilder birthdate(String birthdate) {
+        entity.setBirthdate(parseDate(birthdate));
+        return this;
+    }
+
     public PatientBuilder birthdateEstimated(boolean estimated) {
         entity.setBirthdateEstimated(estimated);
         return this;
     }
 
-    public PatientBuilder birthdate(Date birthdate, boolean estimated) {
-        entity.setBirthdate(birthdate);
+    /**
+     * @param birthdate may be a java.util.Date or a String
+     * @param estimated
+     * @return
+     * @see #parseDate(String)
+     */
+    public PatientBuilder birthdate(Object birthdate, boolean estimated) {
+        if (birthdate instanceof Date) {
+            entity.setBirthdate((Date) birthdate);
+        }
+        else {
+            entity.setBirthdate(parseDate((String) birthdate));
+        }
         entity.setBirthdateEstimated(estimated);
         return this;
     }
@@ -58,6 +75,11 @@ public class PatientBuilder extends TestDataBuilder<Patient> {
 
     public PatientBuilder deathDate(Date deathDate) {
         entity.setDeathDate(deathDate);
+        return this;
+    }
+
+    public PatientBuilder deathDate(String deathDate) {
+        entity.setDeathDate(parseDate(deathDate));
         return this;
     }
 
@@ -86,6 +108,10 @@ public class PatientBuilder extends TestDataBuilder<Patient> {
         return this;
     }
 
+    public PatientBuilder identifier(PatientIdentifierType identifierType, String identifier, Location location) {
+        return identifier(new PatientIdentifier(identifier, identifierType, location));
+    }
+
     public PatientBuilder identifier(PatientIdentifierType identifierType, String identifier) {
         return identifier(new PatientIdentifier(identifier, identifierType, null));
     }
@@ -97,6 +123,11 @@ public class PatientBuilder extends TestDataBuilder<Patient> {
 
     public PatientBuilder dateCreated(Date dateCreated) {
         entity.setDateCreated(dateCreated);
+        return this;
+    }
+
+    public PatientBuilder dateCreated(String dateCreated) {
+        entity.setDateCreated(parseDate(dateCreated));
         return this;
     }
 
@@ -115,6 +146,11 @@ public class PatientBuilder extends TestDataBuilder<Patient> {
         return this;
     }
 
+    public PatientBuilder dateChanged(String changed) {
+        entity.setDateChanged(parseDate(changed));
+        return this;
+    }
+
     public PatientBuilder voided(boolean voided) {
         entity.setVoided(voided);
         return this;
@@ -127,6 +163,11 @@ public class PatientBuilder extends TestDataBuilder<Patient> {
 
     public PatientBuilder dateVoided(Date dateVoided) {
         entity.setDateCreated(dateVoided);
+        return this;
+    }
+
+    public PatientBuilder dateVoided(String dateVoided) {
+        entity.setDateCreated(parseDate(dateVoided));
         return this;
     }
 

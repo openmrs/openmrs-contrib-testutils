@@ -1,7 +1,11 @@
 package org.openmrs.contrib.testdata.builder;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.openmrs.contrib.testdata.TestDataManager;
+
+import java.text.ParseException;
+import java.util.Date;
 
 /**
  *
@@ -38,4 +42,16 @@ public abstract class TestDataBuilder<T> {
         }
     }
 
+    /**
+     * Supports "yyyy-MM-dd" and "yyyy-MM-dd hh:mm:ss"
+     * @param ymdMaybeHms
+     * @return
+     */
+    protected Date parseDate(String ymdMaybeHms) {
+        try {
+            return DateUtils.parseDate(ymdMaybeHms, "yyyy-MM-dd", "yyyy-MM-dd hh:mm:ss");
+        } catch (ParseException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
 }
