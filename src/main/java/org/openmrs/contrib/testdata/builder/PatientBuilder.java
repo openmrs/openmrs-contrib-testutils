@@ -3,6 +3,7 @@ package org.openmrs.contrib.testdata.builder;
 import org.openmrs.Concept;
 import org.openmrs.Patient;
 import org.openmrs.PatientIdentifier;
+import org.openmrs.PatientIdentifierType;
 import org.openmrs.PersonAddress;
 import org.openmrs.PersonAttribute;
 import org.openmrs.PersonName;
@@ -85,6 +86,10 @@ public class PatientBuilder extends TestDataBuilder<Patient> {
         return this;
     }
 
+    public PatientBuilder identifier(PatientIdentifierType identifierType, String identifier) {
+        return identifier(new PatientIdentifier(identifier, identifierType, null));
+    }
+
     public PatientBuilder uuid(String uuid) {
         entity.setUuid(uuid);
         return this;
@@ -133,4 +138,10 @@ public class PatientBuilder extends TestDataBuilder<Patient> {
     public PatientBuilder name(String given, String family) {
         return name(new PersonName(given, null, family));
     }
+
+    public PatientBuilder age(int years) {
+        entity.setBirthdateFromAge(years, null);
+        return this;
+    }
+
 }
