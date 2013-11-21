@@ -11,7 +11,10 @@ import org.openmrs.PersonName;
 import org.openmrs.User;
 import org.openmrs.contrib.testdata.TestDataManager;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  *
@@ -179,6 +182,37 @@ public class PatientBuilder extends TestDataBuilder<Patient> {
     public PatientBuilder name(String given, String family) {
         return name(new PersonName(given, null, family));
     }
+
+    public PatientBuilder address(String... addressFields) {
+
+        List<String> fields = Arrays.asList(addressFields);
+
+        Iterator<String> i = fields.iterator();
+        PersonAddress address = new PersonAddress();
+
+        if (i.hasNext()) {
+            address.setAddress1(i.next());
+        }
+        if (i.hasNext()) {
+            address.setAddress2(i.next());
+        }
+        if (i.hasNext()) {
+            address.setCityVillage(i.next()) ;
+        }
+        if (i.hasNext()) {
+            address.setStateProvince(i.next());
+        }
+        if (i.hasNext()) {
+            address.setPostalCode(i.next());
+        }
+        if (i.hasNext()) {
+            address.setCountry(i.next());
+        }
+
+        entity.addAddress(address);
+        return this;
+    }
+
 
     public PatientBuilder age(int years) {
         entity.setBirthdateFromAge(years, null);

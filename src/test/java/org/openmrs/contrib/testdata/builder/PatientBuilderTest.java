@@ -48,7 +48,8 @@ public class PatientBuilderTest {
         Date dateCreated = parseDate("2013-10-01");
         String uuid = "be7890be-36a4-11e3-b90a-a351ac6b1528";
 
-        Patient patient = testDataManager.patient().name("Alice", "Waters").gender("F").birthdate(birthdate, false).dead(false).dateCreated(dateCreated).uuid(uuid).save();
+        Patient patient = testDataManager.patient().name("Alice", "Waters").gender("F").birthdate(birthdate, false)
+                .dead(false).dateCreated(dateCreated).uuid(uuid).address("475 Comm. Ave", "#706", "Boston", "MA", "02066", "USA").save();
 
         assertThat(patient.getPersonName().getGivenName(), is("Alice"));
         assertThat(patient.getPersonName().getFamilyName(), is("Waters"));
@@ -56,6 +57,12 @@ public class PatientBuilderTest {
         assertThat(patient.getBirthdate(), is(birthdate));
         assertThat(patient.getDateCreated(), is(dateCreated));
         assertThat(patient.getUuid(), is(uuid));
+        assertThat(patient.getPersonAddress().getAddress1(), is("475 Comm. Ave"));
+        assertThat(patient.getPersonAddress().getAddress2(), is("#706"));
+        assertThat(patient.getPersonAddress().getCityVillage(), is("Boston"));
+        assertThat(patient.getPersonAddress().getStateProvince(), is("MA"));
+        assertThat(patient.getPersonAddress().getPostalCode(), is("02066"));
+        assertThat(patient.getPersonAddress().getCountry(), is("USA"));
         assertFalse(patient.isDead());
 
         assertThat(testDataManager.numEntitiesCreated(), is(1));
