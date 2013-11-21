@@ -57,6 +57,21 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <target>1.6</target>
+                        <source>1.6</source>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
     <repositories>
         <repository>
             <id>openmrs-repo</id>
@@ -64,4 +79,5 @@
             <url>http://mavenrepo.openmrs.org/nexus/content/repositories/public</url>
         </repository>
     </repositories>
+
 </project>
