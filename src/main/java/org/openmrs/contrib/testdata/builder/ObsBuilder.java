@@ -39,6 +39,11 @@ public class ObsBuilder extends TestDataBuilder<Obs> {
         return this;
     }
 
+    public ObsBuilder obsDatetime(Date date) {
+        entity.setObsDatetime(date);
+        return this;
+    }
+
     public ObsBuilder concept(Concept concept) {
         entity.setConcept(concept);
         return this;
@@ -46,6 +51,11 @@ public class ObsBuilder extends TestDataBuilder<Obs> {
 
     public ObsBuilder concept(String code, String sourceName) {
         return concept(testDataManager.getConceptService().getConceptByMapping(code, sourceName));
+    }
+
+    public ObsBuilder member(Obs obs) {
+        entity.addGroupMember(obs);
+        return this;
     }
 
     public ObsBuilder value(Concept valueCoded) {
