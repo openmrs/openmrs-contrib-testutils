@@ -219,4 +219,14 @@ public class PatientBuilder extends TestDataBuilder<Patient> {
         return this;
     }
 
+    public PatientBuilder female() {
+        entity.setGender("F");
+        return this;
+    }
+
+    public PatientBuilder male() {
+        entity.setGender("M");
+        return this;
+    }
+
 }

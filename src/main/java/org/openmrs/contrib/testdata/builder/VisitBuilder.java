@@ -5,6 +5,7 @@ import org.openmrs.Patient;
 import org.openmrs.User;
 import org.openmrs.Visit;
 import org.openmrs.VisitType;
+import org.openmrs.api.context.Context;
 import org.openmrs.contrib.testdata.TestDataManager;
 
 import java.util.Date;
@@ -22,7 +23,7 @@ public class VisitBuilder extends TestDataBuilder<Visit> {
 
     @Override
     public Visit save() {
-        Visit created = testDataManager.getVisitService().saveVisit(entity);
+        Visit created = Context.getVisitService().saveVisit(entity);
         testDataManager.created(Visit.class, created);
         return created;
     }
