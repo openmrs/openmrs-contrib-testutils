@@ -8,7 +8,27 @@
     <packaging>jar</packaging>
 
     <name>testutils</name>
-    <url>http://maven.apache.org</url>
+    <url>http://openmrs.org</url>
+
+    <scm>
+        <connection>scm:git:https://github.com/PIH/openmrs-contrib-testutils/</connection>
+        <developerConnection>scm:git:https://github.com/PIH/openmrs-contrib-testutils/</developerConnection>
+        <url>https://github.com/PIH/openmrs-contrib-testutils/</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>openmrs-repo-contrib</id>
+            <name>OpenMRS Contrib</name>
+            <url>http://mavenrepo.openmrs.org/nexus/content/repositories/contrib</url>
+        </repository>
+        <snapshotRepository>
+            <id>openmrs-repo-snapshots</id>
+            <name>OpenMRS Snapshots</name>
+            <url>http://mavenrepo.openmrs.org/nexus/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -33,6 +53,15 @@
             <artifactId>openmrs-test</artifactId>
             <version>${openmrsCoreVersion}</version>
             <scope>provided</scope>
+            <type>pom</type>
         </dependency>
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>openmrs-repo</id>
+            <name>OpenMRS Nexus Repository</name>
+            <url>http://mavenrepo.openmrs.org/nexus/content/repositories/public</url>
+        </repository>
+    </repositories>
 </project>
