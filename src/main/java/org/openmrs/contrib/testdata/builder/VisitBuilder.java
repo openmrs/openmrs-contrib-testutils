@@ -23,9 +23,9 @@ public class VisitBuilder extends TestDataBuilder<Visit> {
 
     @Override
     public Visit save() {
+        complete = true;
         Visit created = Context.getVisitService().saveVisit(entity);
         testDataManager.created(Visit.class, created);
-        complete = true;
         return created;
     }
 

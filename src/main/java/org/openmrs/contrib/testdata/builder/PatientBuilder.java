@@ -29,9 +29,9 @@ public class PatientBuilder extends TestDataBuilder<Patient> {
 
     @Override
     public Patient save() {
+        complete = true;
         Patient created = testDataManager.getPatientService().savePatient(entity);
         testDataManager.created(Patient.class, created);
-        complete = true;
         return created;
     }
 

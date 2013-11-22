@@ -23,9 +23,9 @@ public class EncounterBuilder extends TestDataBuilder<Encounter> {
 
     @Override
     public Encounter save() {
+        complete = true;
         Encounter created = testDataManager.getEncounterService().saveEncounter(entity);
         testDataManager.created(Encounter.class, created);
-        complete = true;
         return created;
     }
 

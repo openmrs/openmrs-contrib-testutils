@@ -104,7 +104,9 @@ public class TestDataManager {
     private void returningNewBuilder(TestDataBuilder<?> builder) {
         if (lastBuilder != null) {
             if (!lastBuilder.isComplete()) {
-                throw new IllegalStateException("Tried to create a new builder without calling save() on the previous one: " + lastBuilder);
+                TestDataBuilder didNotSave = lastBuilder;
+                lastBuilder = null;
+                throw new IllegalStateException("Tried to create a new builder without calling save() on the previous one: " + didNotSave);
             }
         }
         lastBuilder = builder;
