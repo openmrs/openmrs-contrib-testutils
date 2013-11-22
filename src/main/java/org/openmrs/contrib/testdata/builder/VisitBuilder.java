@@ -25,6 +25,7 @@ public class VisitBuilder extends TestDataBuilder<Visit> {
     public Visit save() {
         Visit created = Context.getVisitService().saveVisit(entity);
         testDataManager.created(Visit.class, created);
+        complete = true;
         return created;
     }
 

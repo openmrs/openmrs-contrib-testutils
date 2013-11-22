@@ -13,6 +13,7 @@ import org.openmrs.api.PatientService;
 import org.openmrs.contrib.testdata.builder.EncounterBuilder;
 import org.openmrs.contrib.testdata.builder.ObsBuilder;
 import org.openmrs.contrib.testdata.builder.PatientBuilder;
+import org.openmrs.contrib.testdata.builder.TestDataBuilder;
 import org.openmrs.contrib.testdata.builder.VisitBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -63,6 +64,8 @@ public class TestDataManager {
 
     // do not mention VisitService in this class, so that it can be used against multiple OpenMRS versions
 
+    private TestDataBuilder<?> lastBuilder;
+
     public TestDataManager() {
     }
 
@@ -98,8 +101,19 @@ public class TestDataManager {
         this.conceptService = conceptService;
     }
 
+    private void returningNewBuilder(TestDataBuilder<?> builder) {
+        if (lastBuilder != null) {
+            if (!lastBuilder.isComplete()) {
+                throw new IllegalStateException("Tried to create a new builder without calling save() on the previous one: " + lastBuilder);
+            }
+        }
+        lastBuilder = builder;
+    }
+
     public PatientBuilder patient() {
-        return new PatientBuilder(this);
+        PatientBuilder builder = new PatientBuilder(this);
+        returningNewBuilder(builder);
+        return builder;
     }
 
     public PatientBuilder randomPatient() {
@@ -112,11 +126,15 @@ public class TestDataManager {
     }
 
     public VisitBuilder visit() {
-        return new VisitBuilder(this);
+        VisitBuilder builder = new VisitBuilder(this);
+        returningNewBuilder(builder);
+        return builder;
     }
 
     public EncounterBuilder encounter() {
-        return new EncounterBuilder(this);
+        EncounterBuilder builder = new EncounterBuilder(this);
+        returningNewBuilder(builder);
+        return builder;
     }
 
     /**
@@ -128,7 +146,9 @@ public class TestDataManager {
     }
 
     public ObsBuilder obs() {
-        return new ObsBuilder(this);
+        ObsBuilder builder = new ObsBuilder(this);
+        returningNewBuilder(builder);
+        return builder;
     }
 
     public <T, U extends T> void created(Class<T> clazz, U created) {

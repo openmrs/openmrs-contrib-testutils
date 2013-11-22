@@ -14,10 +14,19 @@ public abstract class TestDataBuilder<T> {
 
     protected TestDataManager testDataManager;
 
+    /**
+     * Subclasses should set this to true after the entity is retrieved, typically by calling save()
+     */
+    protected boolean complete;
+
     public TestDataBuilder(TestDataManager testDataManager) {
         this.testDataManager = testDataManager;
     }
 
+    /**
+     * Implementations must set complete = true in this method
+     * @return
+     */
     public abstract T save();
 
     /**
@@ -54,4 +63,9 @@ public abstract class TestDataBuilder<T> {
             throw new IllegalArgumentException(e);
         }
     }
+
+    public boolean isComplete() {
+        return complete;
+    }
+
 }

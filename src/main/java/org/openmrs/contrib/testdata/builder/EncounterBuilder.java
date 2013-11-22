@@ -25,6 +25,7 @@ public class EncounterBuilder extends TestDataBuilder<Encounter> {
     public Encounter save() {
         Encounter created = testDataManager.getEncounterService().saveEncounter(entity);
         testDataManager.created(Encounter.class, created);
+        complete = true;
         return created;
     }
 

@@ -31,6 +31,7 @@ public class PatientBuilder extends TestDataBuilder<Patient> {
     public Patient save() {
         Patient created = testDataManager.getPatientService().savePatient(entity);
         testDataManager.created(Patient.class, created);
+        complete = true;
         return created;
     }
 
