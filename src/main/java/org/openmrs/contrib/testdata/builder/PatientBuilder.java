@@ -107,8 +107,20 @@ public class PatientBuilder extends TestDataBuilder<Patient> {
         return this;
     }
 
-    public PatientBuilder identifier(PatientIdentifier id) {
-        entity.addIdentifier(id);
+    /**
+     * Add an identifier to the patient; if this is the first identifier, it is marked as preferred
+     *
+     * @param identifier to add
+     * @return
+     */
+    public PatientBuilder identifier(PatientIdentifier identifier) {
+        entity.addIdentifier(identifier);
+
+        // mark the first identifier added as preferred
+        if (entity.getIdentifiers().size()  == 1) {
+            entity.getIdentifiers().iterator().next().setPreferred(true);
+        }
+
         return this;
     }
 
