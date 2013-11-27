@@ -1,18 +1,5 @@
 package org.openmrs.contrib.testdata.builder;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-import org.openmrs.Concept;
-import org.openmrs.Encounter;
-import org.openmrs.Obs;
-import org.openmrs.Person;
-import org.openmrs.api.ObsService;
-import org.openmrs.contrib.testdata.TestDataManager;
-
-import java.util.Date;
-
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -20,6 +7,20 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+import org.openmrs.Concept;
+import org.openmrs.Encounter;
+import org.openmrs.Location;
+import org.openmrs.Obs;
+import org.openmrs.Person;
+import org.openmrs.api.ObsService;
+import org.openmrs.contrib.testdata.TestDataManager;
+
+import java.util.Date;
 
 public class ObsBuilderTest {
 
@@ -48,15 +49,17 @@ public class ObsBuilderTest {
         Encounter encounter = new Encounter();
         Obs memberObs1 = new Obs();
         Obs memberObs2 = new Obs();
+        Location location = new Location();
         Date date = new Date();
 
         Obs obs = testDataManager.obs().value(11).concept(concept).person(person).encounter(encounter)
-                .obsDatetime(date).member(memberObs1).member(memberObs2).save();
+                .location(location).obsDatetime(date).member(memberObs1).member(memberObs2).save();
 
         assertThat(obs.getValueNumeric(), is(new Double(11)));
         assertThat(obs.getConcept(), is(concept));
         assertThat(obs.getPerson(), is(person));
         assertThat(obs.getEncounter(), is(encounter));
+        assertThat(obs.getLocation(), is(location));
         assertThat(obs.getObsDatetime(), is(date));
         assertThat(obs.getGroupMembers().size(), is(2));
         assertThat(obs.getGroupMembers(), hasItem(memberObs1));

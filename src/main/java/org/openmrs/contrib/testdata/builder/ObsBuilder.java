@@ -2,6 +2,7 @@ package org.openmrs.contrib.testdata.builder;
 
 import org.openmrs.Concept;
 import org.openmrs.Encounter;
+import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.Person;
 import org.openmrs.contrib.testdata.TestDataManager;
@@ -45,6 +46,11 @@ public class ObsBuilder extends TestDataBuilder<Obs> {
         return this;
     }
 
+    public ObsBuilder location(Location location) {
+        entity.setLocation(location);
+        return this;
+    }
+    
     public ObsBuilder concept(Concept concept) {
         entity.setConcept(concept);
         return this;
