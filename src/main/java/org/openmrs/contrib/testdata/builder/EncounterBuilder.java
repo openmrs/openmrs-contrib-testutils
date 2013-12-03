@@ -1,9 +1,11 @@
 package org.openmrs.contrib.testdata.builder;
 
 import org.openmrs.Encounter;
+import org.openmrs.EncounterRole;
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.Patient;
+import org.openmrs.Provider;
 import org.openmrs.User;
 import org.openmrs.Visit;
 import org.openmrs.contrib.testdata.TestDataManager;
@@ -47,6 +49,11 @@ public class EncounterBuilder extends TestDataBuilder<Encounter> {
         return this;
     }
 
+    public EncounterBuilder provider(EncounterRole role, Provider provider) {
+        entity.addProvider(role, provider);
+        return this;
+    }
+    
     public EncounterBuilder location(Location location) {
         entity.setLocation(location);
         return this;
