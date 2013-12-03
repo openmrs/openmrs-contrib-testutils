@@ -1,5 +1,7 @@
 package org.openmrs.contrib.testdata;
 
+import static org.databene.benerator.util.SimpleRandom.randomInt;
+
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openmrs.EncounterType;
@@ -10,9 +12,11 @@ import org.openmrs.api.EncounterService;
 import org.openmrs.api.LocationService;
 import org.openmrs.api.ObsService;
 import org.openmrs.api.PatientService;
+import org.openmrs.api.ProviderService;
 import org.openmrs.contrib.testdata.builder.EncounterBuilder;
 import org.openmrs.contrib.testdata.builder.ObsBuilder;
 import org.openmrs.contrib.testdata.builder.PatientBuilder;
+import org.openmrs.contrib.testdata.builder.ProviderBuilder;
 import org.openmrs.contrib.testdata.builder.TestDataBuilder;
 import org.openmrs.contrib.testdata.builder.VisitBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +27,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import static org.databene.benerator.util.SimpleRandom.randomInt;
 
 @Component
 public class TestDataManager {
@@ -62,6 +64,9 @@ public class TestDataManager {
     @Autowired @Qualifier("locationService")
     private LocationService locationService;
 
+    @Autowired @Qualifier("providerService")
+    private ProviderService providerService;
+    
     // do not mention VisitService in this class, so that it can be used against multiple OpenMRS versions
 
     private TestDataBuilder<?> lastBuilder;
@@ -101,6 +106,22 @@ public class TestDataManager {
         this.conceptService = conceptService;
     }
 
+    public ProviderService getProviderService() {
+        return providerService;
+    }
+
+    public void setProviderService(ProviderService providerService) {
+        this.providerService = providerService;
+    }
+
+    public LocationService getLocationService() {
+        return locationService;
+    }
+
+    public void setLocationService(LocationService locationService) {
+        this.locationService = locationService;
+    }
+
     private void returningNewBuilder(TestDataBuilder<?> builder) {
         if (lastBuilder != null) {
             if (!lastBuilder.isComplete()) {
@@ -137,6 +158,18 @@ public class TestDataManager {
         EncounterBuilder builder = new EncounterBuilder(this);
         returningNewBuilder(builder);
         return builder;
+    }
+
+    public ProviderBuilder provider() {
+        ProviderBuilder builder = new ProviderBuilder(this);
+        returningNewBuilder(builder);
+        return builder;
+    }
+
+    public ProviderBuilder randomProvider() {
+        return provider()
+                .name(randomElement(FAMILY_NAMES))
+                .identifier(generateRandomIdentifier());
     }
 
     /**

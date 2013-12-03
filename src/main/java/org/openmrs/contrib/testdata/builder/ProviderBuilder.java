@@ -1,0 +1,39 @@
+package org.openmrs.contrib.testdata.builder;
+
+import org.openmrs.Person;
+import org.openmrs.Provider;
+import org.openmrs.contrib.testdata.TestDataManager;
+
+public class ProviderBuilder extends TestDataBuilder<Provider> {
+
+    private Provider entity = new Provider();
+
+    public ProviderBuilder(TestDataManager testDataManager) {
+        super(testDataManager);
+    }
+
+    @Override
+    public Provider save() {
+        complete = true;
+        Provider created = testDataManager.getProviderService().saveProvider(entity);
+        testDataManager.created(Provider.class, created);
+        return created;
+    }
+
+    public ProviderBuilder person(Person person) {
+        entity.setPerson(person);
+        return this;
+    }
+
+    public ProviderBuilder name(String name) {
+        entity.setName(name);
+        return this;
+    }
+
+    public ProviderBuilder identifier(String identifier) {
+        entity.setIdentifier(identifier);
+        return this;
+    }
+
+
+}
