@@ -11,8 +11,8 @@ import org.openmrs.api.ConceptService;
 import org.openmrs.api.EncounterService;
 import org.openmrs.api.LocationService;
 import org.openmrs.api.ObsService;
+import org.openmrs.api.OpenmrsService;
 import org.openmrs.api.PatientService;
-import org.openmrs.api.ProviderService;
 import org.openmrs.contrib.testdata.builder.EncounterBuilder;
 import org.openmrs.contrib.testdata.builder.ObsBuilder;
 import org.openmrs.contrib.testdata.builder.PatientBuilder;
@@ -64,8 +64,11 @@ public class TestDataManager {
     @Autowired @Qualifier("locationService")
     private LocationService locationService;
 
-    @Autowired @Qualifier("providerService")
-    private ProviderService providerService;
+    // we aren't explicitly referencing this as a ProviderService so that these utils can still be run with versions
+    // of OpenMRS prior to 1.9
+    @Autowired(required = false)
+    @Qualifier("providerService")
+    private OpenmrsService providerService;
     
     // do not mention VisitService in this class, so that it can be used against multiple OpenMRS versions
 
@@ -106,11 +109,11 @@ public class TestDataManager {
         this.conceptService = conceptService;
     }
 
-    public ProviderService getProviderService() {
+    public OpenmrsService getProviderService() {
         return providerService;
     }
 
-    public void setProviderService(ProviderService providerService) {
+    public void setProviderService(OpenmrsService providerService) {
         this.providerService = providerService;
     }
 
