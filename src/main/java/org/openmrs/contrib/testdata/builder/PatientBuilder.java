@@ -7,6 +7,7 @@ import org.openmrs.PatientIdentifier;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.PersonAddress;
 import org.openmrs.PersonAttribute;
+import org.openmrs.PersonAttributeType;
 import org.openmrs.PersonName;
 import org.openmrs.User;
 import org.openmrs.contrib.testdata.TestDataManager;
@@ -89,6 +90,11 @@ public class PatientBuilder extends TestDataBuilder<Patient> {
 
     public PatientBuilder causeOfDeath(Concept causeOfDeath) {
         entity.setCauseOfDeath(causeOfDeath);
+        return this;
+    }
+
+    public PatientBuilder causeOfDeath(String code, String sourceName) {
+        entity.setCauseOfDeath(testDataManager.getConceptService().getConceptByMapping(code, sourceName));
         return this;
     }
 
@@ -239,6 +245,18 @@ public class PatientBuilder extends TestDataBuilder<Patient> {
 
     public PatientBuilder male() {
         entity.setGender("M");
+        return this;
+    }
+
+    public PatientBuilder clearIdentifiers() {
+        if (entity.getIdentifiers() != null) {
+            entity.getIdentifiers().clear();
+        }
+        return this;
+    }
+
+    public PatientBuilder personAttribute(PersonAttributeType attributeType, String value) {
+        entity.addAttribute(new PersonAttribute(attributeType, value));
         return this;
     }
 

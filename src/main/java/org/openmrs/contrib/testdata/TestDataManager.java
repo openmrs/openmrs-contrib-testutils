@@ -1,7 +1,5 @@
 package org.openmrs.contrib.testdata;
 
-import static org.databene.benerator.util.SimpleRandom.randomInt;
-
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openmrs.EncounterType;
@@ -13,11 +11,14 @@ import org.openmrs.api.LocationService;
 import org.openmrs.api.ObsService;
 import org.openmrs.api.OpenmrsService;
 import org.openmrs.api.PatientService;
+import org.openmrs.api.PersonService;
+import org.openmrs.api.UserService;
 import org.openmrs.contrib.testdata.builder.EncounterBuilder;
 import org.openmrs.contrib.testdata.builder.ObsBuilder;
 import org.openmrs.contrib.testdata.builder.PatientBuilder;
 import org.openmrs.contrib.testdata.builder.ProviderBuilder;
 import org.openmrs.contrib.testdata.builder.TestDataBuilder;
+import org.openmrs.contrib.testdata.builder.UserBuilder;
 import org.openmrs.contrib.testdata.builder.VisitBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -27,6 +28,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import static org.databene.benerator.util.SimpleRandom.randomInt;
 
 @Component
 public class TestDataManager {
@@ -52,6 +55,9 @@ public class TestDataManager {
     @Autowired @Qualifier("patientService")
     private PatientService patientService;
 
+    @Autowired @Qualifier("personService")
+    private PersonService personService;
+
     @Autowired @Qualifier("encounterService")
     private EncounterService encounterService;
 
@@ -63,6 +69,9 @@ public class TestDataManager {
 
     @Autowired @Qualifier("locationService")
     private LocationService locationService;
+
+    @Autowired @Qualifier("userService")
+    private UserService userService;
 
     // we aren't explicitly referencing this as a ProviderService so that these utils can still be run with versions
     // of OpenMRS prior to 1.9
@@ -83,6 +92,14 @@ public class TestDataManager {
 
     public void setPatientService(PatientService patientService) {
         this.patientService = patientService;
+    }
+
+    public PersonService getPersonService() {
+        return personService;
+    }
+
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
     }
 
     public EncounterService getEncounterService() {
@@ -125,6 +142,14 @@ public class TestDataManager {
         this.locationService = locationService;
     }
 
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
     private void returningNewBuilder(TestDataBuilder<?> builder) {
         if (lastBuilder != null) {
             if (!lastBuilder.isComplete()) {
@@ -149,6 +174,12 @@ public class TestDataManager {
                 .gender(gender)
                 .name(randomElement(gender.equals("M") ? MALE_FIRST_NAMES : FEMALE_FIRST_NAMES), randomElement(FAMILY_NAMES))
                 .identifier(findPatientIdentifierTypeWithNoCheckDigit(), generateRandomIdentifier(), pickRandomLocation());
+    }
+
+    public UserBuilder user() {
+        UserBuilder builder = new UserBuilder(this);
+        returningNewBuilder(builder);
+        return builder;
     }
 
     public VisitBuilder visit() {
@@ -229,12 +260,12 @@ public class TestDataManager {
 
     private Date randomRecentDate() {
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.YEAR, randomInt(0, 3));
-        cal.add(Calendar.MONTH, randomInt(0, 12));
-        cal.add(Calendar.DATE, randomInt(0, 30));
-        cal.add(Calendar.HOUR, randomInt(0, 23));
-        cal.add(Calendar.MINUTE, randomInt(0, 59));
-        cal.add(Calendar.SECOND, randomInt(0, 59));
+        cal.add(Calendar.YEAR, -randomInt(0, 3));
+        cal.add(Calendar.MONTH, -randomInt(0, 12));
+        cal.add(Calendar.DATE, -randomInt(0, 30));
+        cal.add(Calendar.HOUR, -randomInt(0, 23));
+        cal.add(Calendar.MINUTE, -randomInt(0, 59));
+        cal.add(Calendar.SECOND, -randomInt(0, 59));
         return cal.getTime();
     }
 
