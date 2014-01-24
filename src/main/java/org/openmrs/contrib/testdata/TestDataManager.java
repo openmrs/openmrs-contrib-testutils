@@ -12,10 +12,12 @@ import org.openmrs.api.ObsService;
 import org.openmrs.api.OpenmrsService;
 import org.openmrs.api.PatientService;
 import org.openmrs.api.PersonService;
+import org.openmrs.api.ProgramWorkflowService;
 import org.openmrs.api.UserService;
 import org.openmrs.contrib.testdata.builder.EncounterBuilder;
 import org.openmrs.contrib.testdata.builder.ObsBuilder;
 import org.openmrs.contrib.testdata.builder.PatientBuilder;
+import org.openmrs.contrib.testdata.builder.PatientProgramBuilder;
 import org.openmrs.contrib.testdata.builder.ProviderBuilder;
 import org.openmrs.contrib.testdata.builder.TestDataBuilder;
 import org.openmrs.contrib.testdata.builder.UserBuilder;
@@ -72,6 +74,9 @@ public class TestDataManager {
 
     @Autowired @Qualifier("userService")
     private UserService userService;
+    
+    @Autowired @Qualifier("programWorkflowService")
+	private ProgramWorkflowService programWorkflowService;
 
     // we aren't explicitly referencing this as a ProviderService so that these utils can still be run with versions
     // of OpenMRS prior to 1.9
@@ -149,6 +154,14 @@ public class TestDataManager {
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
+    
+    public void setProgramWorkflowService(ProgramWorkflowService programWorkflowService) {
+		this.programWorkflowService = programWorkflowService;
+	}
+
+	public ProgramWorkflowService getProgramWorkflowService() {
+		return programWorkflowService;
+	}
 
     private void returningNewBuilder(TestDataBuilder<?> builder) {
         if (lastBuilder != null) {
@@ -219,6 +232,12 @@ public class TestDataManager {
         returningNewBuilder(builder);
         return builder;
     }
+    
+    public PatientProgramBuilder patientProgram() {
+		PatientProgramBuilder builder = new PatientProgramBuilder(this);
+		returningNewBuilder(builder);
+		return builder;
+	}
 
     public <T, U extends T> void created(Class<T> clazz, U created) {
         // TODO store these in a more useful way, e.g. by clazz
