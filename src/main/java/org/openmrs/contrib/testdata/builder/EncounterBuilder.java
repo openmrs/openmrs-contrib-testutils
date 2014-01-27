@@ -1,9 +1,12 @@
 package org.openmrs.contrib.testdata.builder;
 
+import org.openmrs.Concept;
+import org.openmrs.ConceptName;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterRole;
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
+import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.Provider;
 import org.openmrs.User;
@@ -191,6 +194,40 @@ public class EncounterBuilder extends TestDataBuilder<Encounter> {
 
     public EncounterBuilder voidReason(String voidReason) {
         entity.setVoidReason(voidReason);
+        return this;
+    }
+
+    public EncounterBuilder obs(String code, String sourceName, Object value) {
+        return obs(testDataManager.getConceptService().getConceptByMapping(code, sourceName), value);
+    }
+
+    public EncounterBuilder obs(Concept concept, Object value) {
+        Obs obs = new Obs();
+        // I think person, obsDatetime, and location, are propagated via Encounter.addObs
+        // obs.setPerson(entity.getPatient());
+        // obs.setObsDatetime(entity.getEncounterDatetime());
+        // obs.setLocation(entity.getLocation());
+        if (value instanceof Concept) {
+            obs.setValueCoded((Concept) value);
+        }
+        else if (value instanceof ConceptName) {
+            obs.setValueCodedName((ConceptName) value);
+            obs.setValueCoded(((ConceptName) value).getConcept());
+        }
+        else if (value instanceof String) {
+            obs.setValueText((String) value);
+        }
+        else if (value instanceof Double) {
+            obs.setValueNumeric((Double) value);
+        }
+        else if (value instanceof Number) {
+            obs.setValueNumeric(((Number) value).doubleValue());
+        }
+        else if (value instanceof Date) {
+            obs.setValueDatetime((Date) value);
+        }
+        obs.setConcept(concept);
+        entity.addObs(obs);
         return this;
     }
 
