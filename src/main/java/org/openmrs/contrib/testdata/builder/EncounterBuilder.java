@@ -2,10 +2,13 @@ package org.openmrs.contrib.testdata.builder;
 
 import java.util.Date;
 
+import org.openmrs.Concept;
+import org.openmrs.ConceptName;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterRole;
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
+import org.openmrs.Obs;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.Provider;
@@ -53,6 +56,14 @@ public class EncounterBuilder extends TestDataBuilder<Encounter> {
         return this;
     }
 
+    public EncounterBuilder patient(Integer patientId) {
+        Patient p = testDataManager.getPatientService().getPatient(patientId);
+        if (p == null) {
+            throw new IllegalArgumentException("No patient with id " + patientId);
+        }
+        return patient(p);
+    }
+
     public EncounterBuilder visit(Visit visit) {
         entity.setVisit(visit);
         if (visit.getPatient() != null) {
@@ -66,6 +77,25 @@ public class EncounterBuilder extends TestDataBuilder<Encounter> {
         return this;
     }
 
+    public EncounterBuilder encounterType(Integer encounterTypeId) {
+        EncounterType et = testDataManager.getEncounterService().getEncounterType(encounterTypeId);
+        if (et == null) {
+            throw new IllegalArgumentException("No EncounterType with id " + encounterTypeId);
+        }
+        return encounterType(et);
+    }
+
+    public EncounterBuilder encounterType(String nameOrUuid) {
+        EncounterType et = testDataManager.getEncounterService().getEncounterType(nameOrUuid);
+        if (et == null) {
+            et = testDataManager.getEncounterService().getEncounterTypeByUuid(nameOrUuid);
+        }
+        if (et == null) {
+            throw new IllegalArgumentException("No EncounterType with name or uuid " + nameOrUuid);
+        }
+        return encounterType(et);
+    }
+
     public EncounterBuilder provider(EncounterRole role, Provider provider) {
         entity.addProvider(role, provider);
         return this;
@@ -74,6 +104,25 @@ public class EncounterBuilder extends TestDataBuilder<Encounter> {
     public EncounterBuilder location(Location location) {
         entity.setLocation(location);
         return this;
+    }
+
+    public EncounterBuilder location(Integer locationId) {
+        Location loc = testDataManager.getLocationService().getLocation(locationId);
+        if (loc == null) {
+            throw new IllegalArgumentException("No Location with id " + locationId);
+        }
+        return location(loc);
+    }
+
+    public EncounterBuilder location(String nameOrUuid) {
+        Location loc = testDataManager.getLocationService().getLocation(nameOrUuid);
+        if (loc == null) {
+            loc = testDataManager.getLocationService().getLocationByUuid(nameOrUuid);
+        }
+        if (loc == null) {
+            throw new IllegalArgumentException("No Location with name or uuid " + nameOrUuid);
+        }
+        return location(loc);
     }
 
     public EncounterBuilder encounterDatetime(Date date) {
@@ -101,9 +150,25 @@ public class EncounterBuilder extends TestDataBuilder<Encounter> {
         return this;
     }
 
+    public EncounterBuilder creator(Integer userId) {
+        User u = testDataManager.getUserService().getUser(userId);
+        if (u == null) {
+            throw new IllegalArgumentException("No user with id " + userId);
+        }
+        return creator(u);
+    }
+
     public EncounterBuilder changedBy(User by) {
         entity.setChangedBy(by);
         return this;
+    }
+
+    public EncounterBuilder changedBy(Integer userId) {
+        User u = testDataManager.getUserService().getUser(userId);
+        if (u == null) {
+            throw new IllegalArgumentException("No user with id " + userId);
+        }
+        return changedBy(u);
     }
 
     public EncounterBuilder dateChanged(Date changed) {
@@ -126,6 +191,14 @@ public class EncounterBuilder extends TestDataBuilder<Encounter> {
         return this;
     }
 
+    public EncounterBuilder voidedBy(Integer userId) {
+        User u = testDataManager.getUserService().getUser(userId);
+        if (u == null) {
+            throw new IllegalArgumentException("No user with id " + userId);
+        }
+        return voidedBy(u);
+    }
+
     public EncounterBuilder dateVoided(Date dateVoided) {
         entity.setDateCreated(dateVoided);
         return this;
@@ -138,6 +211,40 @@ public class EncounterBuilder extends TestDataBuilder<Encounter> {
 
     public EncounterBuilder voidReason(String voidReason) {
         entity.setVoidReason(voidReason);
+        return this;
+    }
+
+    public EncounterBuilder obs(String code, String sourceName, Object value) {
+        return obs(testDataManager.getConceptService().getConceptByMapping(code, sourceName), value);
+    }
+
+    public EncounterBuilder obs(Concept concept, Object value) {
+        Obs obs = new Obs();
+        // I think person, obsDatetime, and location, are propagated via Encounter.addObs
+        // obs.setPerson(entity.getPatient());
+        // obs.setObsDatetime(entity.getEncounterDatetime());
+        // obs.setLocation(entity.getLocation());
+        if (value instanceof Concept) {
+            obs.setValueCoded((Concept) value);
+        }
+        else if (value instanceof ConceptName) {
+            obs.setValueCodedName((ConceptName) value);
+            obs.setValueCoded(((ConceptName) value).getConcept());
+        }
+        else if (value instanceof String) {
+            obs.setValueText((String) value);
+        }
+        else if (value instanceof Double) {
+            obs.setValueNumeric((Double) value);
+        }
+        else if (value instanceof Number) {
+            obs.setValueNumeric(((Number) value).doubleValue());
+        }
+        else if (value instanceof Date) {
+            obs.setValueDatetime((Date) value);
+        }
+        obs.setConcept(concept);
+        entity.addObs(obs);
         return this;
     }
 

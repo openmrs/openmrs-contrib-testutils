@@ -54,13 +54,13 @@ public abstract class TestDataBuilder<T> {
     }
 
     /**
-     * Supports "yyyy-MM-dd HH:mm:ss" and "yyyy-MM-dd"
+     * Supports "yyyy-MM-dd HH:mm:ss.S", "yyyy-MM-dd HH:mm:ss", and "yyyy-MM-dd"
      * @param ymdMaybeHms
      * @return
      */
     protected Date parseDate(String ymdMaybeHms) {
         try {
-            return DateUtils.parseDate(ymdMaybeHms, "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd");
+            return DateUtils.parseDate(ymdMaybeHms, "yyyy-MM-dd HH:mm:ss.S", "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd");
         } catch (ParseException e) {
             throw new IllegalArgumentException(e);
         }

@@ -18,14 +18,27 @@ import org.openmrs.api.LocationService;
 import org.openmrs.api.ObsService;
 import org.openmrs.api.OpenmrsService;
 import org.openmrs.api.PatientService;
+import org.openmrs.api.PersonService;
+import org.openmrs.api.ProgramWorkflowService;
+import org.openmrs.api.UserService;
 import org.openmrs.contrib.testdata.builder.EncounterBuilder;
 import org.openmrs.contrib.testdata.builder.ObsBuilder;
 import org.openmrs.contrib.testdata.builder.PatientBuilder;
+import org.openmrs.contrib.testdata.builder.PatientProgramBuilder;
 import org.openmrs.contrib.testdata.builder.ProviderBuilder;
+import org.openmrs.contrib.testdata.builder.TestDataBuilder;
+import org.openmrs.contrib.testdata.builder.UserBuilder;
 import org.openmrs.contrib.testdata.builder.VisitBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import static org.databene.benerator.util.SimpleRandom.randomInt;
 
 @Component
 public class TestDataManager {
@@ -51,6 +64,9 @@ public class TestDataManager {
     @Autowired @Qualifier("patientService")
     private PatientService patientService;
 
+    @Autowired @Qualifier("personService")
+    private PersonService personService;
+
     @Autowired @Qualifier("encounterService")
     private EncounterService encounterService;
 
@@ -62,6 +78,12 @@ public class TestDataManager {
 
     @Autowired @Qualifier("locationService")
     private LocationService locationService;
+
+    @Autowired @Qualifier("userService")
+    private UserService userService;
+    
+    @Autowired @Qualifier("programWorkflowService")
+	private ProgramWorkflowService programWorkflowService;
 
     // we aren't explicitly referencing this as a ProviderService so that these utils can still be run with versions
     // of OpenMRS prior to 1.9
@@ -80,6 +102,14 @@ public class TestDataManager {
 
     public void setPatientService(PatientService patientService) {
         this.patientService = patientService;
+    }
+
+    public PersonService getPersonService() {
+        return personService;
+    }
+
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
     }
 
     public EncounterService getEncounterService() {
@@ -122,6 +152,22 @@ public class TestDataManager {
         this.locationService = locationService;
     }
 
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+    
+    public void setProgramWorkflowService(ProgramWorkflowService programWorkflowService) {
+		this.programWorkflowService = programWorkflowService;
+	}
+
+	public ProgramWorkflowService getProgramWorkflowService() {
+		return programWorkflowService;
+	}
+
 
     public PatientBuilder patient() {
         PatientBuilder builder = new PatientBuilder(this);
@@ -135,6 +181,11 @@ public class TestDataManager {
                 .gender(gender)
                 .name(randomElement(gender.equals("M") ? MALE_FIRST_NAMES : FEMALE_FIRST_NAMES), randomElement(FAMILY_NAMES))
                 .identifier(findPatientIdentifierTypeWithNoCheckDigit(), generateRandomIdentifier(), pickRandomLocation());
+    }
+
+    public UserBuilder user() {
+        UserBuilder builder = new UserBuilder(this);
+        return builder;
     }
 
     public VisitBuilder visit() {
@@ -170,6 +221,11 @@ public class TestDataManager {
         ObsBuilder builder = new ObsBuilder(this);
         return builder;
     }
+    
+    public PatientProgramBuilder patientProgram() {
+		PatientProgramBuilder builder = new PatientProgramBuilder(this);
+		return builder;
+	}
 
     public <T, U extends T> void created(Class<T> clazz, U created) {
         // TODO store these in a more useful way, e.g. by clazz
@@ -211,12 +267,12 @@ public class TestDataManager {
 
     private Date randomRecentDate() {
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.YEAR, randomInt(0, 3));
-        cal.add(Calendar.MONTH, randomInt(0, 12));
-        cal.add(Calendar.DATE, randomInt(0, 30));
-        cal.add(Calendar.HOUR, randomInt(0, 23));
-        cal.add(Calendar.MINUTE, randomInt(0, 59));
-        cal.add(Calendar.SECOND, randomInt(0, 59));
+        cal.add(Calendar.YEAR, -randomInt(0, 3));
+        cal.add(Calendar.MONTH, -randomInt(0, 12));
+        cal.add(Calendar.DATE, -randomInt(0, 30));
+        cal.add(Calendar.HOUR, -randomInt(0, 23));
+        cal.add(Calendar.MINUTE, -randomInt(0, 59));
+        cal.add(Calendar.SECOND, -randomInt(0, 59));
         return cal.getTime();
     }
 
