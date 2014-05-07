@@ -24,6 +24,11 @@ public class ProviderBuilder extends TestDataBuilder<Provider> {
         return created;
     }
 
+    @Override
+    public Provider get() {
+        return entity;
+    }
+
     public ProviderBuilder person(Person person) {
         entity.setPerson(person);
         return this;

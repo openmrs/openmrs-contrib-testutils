@@ -31,10 +31,14 @@ public class UserBuilder extends TestDataBuilder<User> {
 
     @Override
     public User save() {
-        complete = true;
         User created = testDataManager.getUserService().saveUser(entity, password);
         testDataManager.created(User.class, created);
         return created;
+    }
+
+    @Override
+    public User get() {
+        return entity;
     }
 
     public UserBuilder personName(String given, String middle, String family) {

@@ -34,12 +34,16 @@ public class PatientProgramBuilder extends TestDataBuilder<PatientProgram> {
 	
 	@Override
 	public PatientProgram save() {
-		complete = true;
 		PatientProgram created = testDataManager.getProgramWorkflowService().savePatientProgram(entity);
 		testDataManager.created(PatientProgram.class, created);
 		return created;
 	}
-	
+
+    @Override
+    public PatientProgram get() {
+        return entity;
+    }
+
 	public PatientProgramBuilder patient(Patient patient) {
 		entity.setPatient(patient);
 		return this;
