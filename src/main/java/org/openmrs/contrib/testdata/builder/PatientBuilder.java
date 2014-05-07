@@ -1,5 +1,10 @@
 package org.openmrs.contrib.testdata.builder;
 
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+
 import org.openmrs.Concept;
 import org.openmrs.Location;
 import org.openmrs.Patient;
@@ -10,11 +15,6 @@ import org.openmrs.PersonAttribute;
 import org.openmrs.PersonName;
 import org.openmrs.User;
 import org.openmrs.contrib.testdata.TestDataManager;
-
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  *
@@ -29,10 +29,14 @@ public class PatientBuilder extends TestDataBuilder<Patient> {
 
     @Override
     public Patient save() {
-        complete = true;
         Patient created = testDataManager.getPatientService().savePatient(entity);
         testDataManager.created(Patient.class, created);
         return created;
+    }
+
+    @Override
+    public Patient get() {
+        return entity;
     }
 
     public PatientBuilder gender(String gender) {

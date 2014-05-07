@@ -1,5 +1,10 @@
 package org.openmrs.contrib.testdata.builder;
 
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.openmrs.Encounter;
 import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.User;
@@ -7,8 +12,6 @@ import org.openmrs.Visit;
 import org.openmrs.VisitType;
 import org.openmrs.api.context.Context;
 import org.openmrs.contrib.testdata.TestDataManager;
-
-import java.util.Date;
 
 /**
  *
@@ -23,10 +26,31 @@ public class VisitBuilder extends TestDataBuilder<Visit> {
 
     @Override
     public Visit save() {
-        complete = true;
         Visit created = Context.getVisitService().saveVisit(entity);
         testDataManager.created(Visit.class, created);
         return created;
+    }
+
+    @Override
+    public Visit get() {
+        return entity;
+    }
+
+    public VisitBuilder encounter(Encounter encounter) {
+
+        encounter.setVisit(entity);
+        encounter.setPatient(entity.getPatient());
+
+        if (entity.getEncounters() == null) {
+            Set<Encounter> encounters = new HashSet<Encounter>();
+            encounters.add(encounter);
+            entity.setEncounters(encounters);
+        }
+        else {
+            entity.getEncounters().add(encounter);
+        }
+
+        return this;
     }
 
     public VisitBuilder patient(Patient patient) {

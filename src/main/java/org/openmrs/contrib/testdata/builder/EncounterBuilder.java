@@ -1,16 +1,17 @@
 package org.openmrs.contrib.testdata.builder;
 
+import java.util.Date;
+
 import org.openmrs.Encounter;
 import org.openmrs.EncounterRole;
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
+import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.Provider;
 import org.openmrs.User;
 import org.openmrs.Visit;
 import org.openmrs.contrib.testdata.TestDataManager;
-
-import java.util.Date;
 
 /**
  *
@@ -25,10 +26,26 @@ public class EncounterBuilder extends TestDataBuilder<Encounter> {
 
     @Override
     public Encounter save() {
-        complete = true;
         Encounter created = testDataManager.getEncounterService().saveEncounter(entity);
         testDataManager.created(Encounter.class, created);
         return created;
+    }
+
+    @Override
+    public Encounter get() {
+        return entity;
+    }
+
+    public EncounterBuilder obs(Obs obs) {
+
+        obs.setEncounter(entity);
+        obs.setPerson(entity.getPatient());
+
+        maybeCopyProperty(entity, "encounterDatetime", obs, "obsDatetime");
+
+        entity.addObs(obs);
+
+        return this;
     }
 
     public EncounterBuilder patient(Patient patient) {

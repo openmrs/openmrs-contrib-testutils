@@ -1,13 +1,13 @@
 package org.openmrs.contrib.testdata.builder;
 
+import java.util.Date;
+
 import org.openmrs.Concept;
 import org.openmrs.Encounter;
 import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.Person;
 import org.openmrs.contrib.testdata.TestDataManager;
-
-import java.util.Date;
 
 /**
  *
@@ -22,10 +22,14 @@ public class ObsBuilder extends TestDataBuilder<Obs> {
 
     @Override
     public Obs save() {
-        complete = true;
         Obs created = testDataManager.getObsService().saveObs(entity, null);
         testDataManager.created(Obs.class, created);
         return created;
+    }
+
+    @Override
+    public Obs get() {
+        return entity;
     }
 
     public ObsBuilder person(Person p) {

@@ -15,10 +15,14 @@ public class ProviderBuilder extends TestDataBuilder<Provider> {
 
     @Override
     public Provider save() {
-        complete = true;
         Provider created = ((ProviderService) testDataManager.getProviderService()).saveProvider(entity);
         testDataManager.created(Provider.class, created);
         return created;
+    }
+
+    @Override
+    public Provider get() {
+        return entity;
     }
 
     public ProviderBuilder person(Person person) {

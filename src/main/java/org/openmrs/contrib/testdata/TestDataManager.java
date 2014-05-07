@@ -2,6 +2,11 @@ package org.openmrs.contrib.testdata;
 
 import static org.databene.benerator.util.SimpleRandom.randomInt;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openmrs.EncounterType;
@@ -17,16 +22,10 @@ import org.openmrs.contrib.testdata.builder.EncounterBuilder;
 import org.openmrs.contrib.testdata.builder.ObsBuilder;
 import org.openmrs.contrib.testdata.builder.PatientBuilder;
 import org.openmrs.contrib.testdata.builder.ProviderBuilder;
-import org.openmrs.contrib.testdata.builder.TestDataBuilder;
 import org.openmrs.contrib.testdata.builder.VisitBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 @Component
 public class TestDataManager {
@@ -71,8 +70,6 @@ public class TestDataManager {
     private OpenmrsService providerService;
     
     // do not mention VisitService in this class, so that it can be used against multiple OpenMRS versions
-
-    private TestDataBuilder<?> lastBuilder;
 
     public TestDataManager() {
     }
@@ -125,20 +122,9 @@ public class TestDataManager {
         this.locationService = locationService;
     }
 
-    private void returningNewBuilder(TestDataBuilder<?> builder) {
-        if (lastBuilder != null) {
-            if (!lastBuilder.isComplete()) {
-                TestDataBuilder didNotSave = lastBuilder;
-                lastBuilder = null;
-                throw new IllegalStateException("Tried to create a new builder without calling save() on the previous one: " + didNotSave);
-            }
-        }
-        lastBuilder = builder;
-    }
 
     public PatientBuilder patient() {
         PatientBuilder builder = new PatientBuilder(this);
-        returningNewBuilder(builder);
         return builder;
     }
 
@@ -153,19 +139,16 @@ public class TestDataManager {
 
     public VisitBuilder visit() {
         VisitBuilder builder = new VisitBuilder(this);
-        returningNewBuilder(builder);
         return builder;
     }
 
     public EncounterBuilder encounter() {
         EncounterBuilder builder = new EncounterBuilder(this);
-        returningNewBuilder(builder);
         return builder;
     }
 
     public ProviderBuilder provider() {
         ProviderBuilder builder = new ProviderBuilder(this);
-        returningNewBuilder(builder);
         return builder;
     }
 
@@ -185,7 +168,6 @@ public class TestDataManager {
 
     public ObsBuilder obs() {
         ObsBuilder builder = new ObsBuilder(this);
-        returningNewBuilder(builder);
         return builder;
     }
 

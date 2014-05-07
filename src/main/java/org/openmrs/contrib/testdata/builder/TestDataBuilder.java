@@ -1,11 +1,11 @@
 package org.openmrs.contrib.testdata.builder;
 
+import java.text.ParseException;
+import java.util.Date;
+
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.openmrs.contrib.testdata.TestDataManager;
-
-import java.text.ParseException;
-import java.util.Date;
 
 /**
  *
@@ -13,11 +13,6 @@ import java.util.Date;
 public abstract class TestDataBuilder<T> {
 
     protected TestDataManager testDataManager;
-
-    /**
-     * Subclasses should set this to true after the entity is retrieved, typically by calling save()
-     */
-    protected boolean complete;
 
     public TestDataBuilder(TestDataManager testDataManager) {
         this.testDataManager = testDataManager;
@@ -28,6 +23,13 @@ public abstract class TestDataBuilder<T> {
      * @return
      */
     public abstract T save();
+
+    /**
+     * Implementations must set complete = true in this method
+     * @return
+     */
+    public abstract T get();
+
 
     /**
      * If toBean.toProperty is null, then overwrite it with fromBean.fromProperty.
@@ -62,10 +64,6 @@ public abstract class TestDataBuilder<T> {
         } catch (ParseException e) {
             throw new IllegalArgumentException(e);
         }
-    }
-
-    public boolean isComplete() {
-        return complete;
     }
 
 }
