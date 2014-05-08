@@ -1,9 +1,5 @@
 package org.openmrs.contrib.testdata.builder;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.openmrs.Encounter;
 import org.openmrs.Location;
 import org.openmrs.Patient;
@@ -12,6 +8,10 @@ import org.openmrs.Visit;
 import org.openmrs.VisitType;
 import org.openmrs.api.context.Context;
 import org.openmrs.contrib.testdata.TestDataManager;
+
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
@@ -36,7 +36,7 @@ public class VisitBuilder extends TestDataBuilder<Visit> {
         return entity;
     }
 
-    public VisitBuilder encounter(Encounter encounter) {
+    public VisitBuilder visit(Encounter encounter) {
 
         encounter.setVisit(entity);
         encounter.setPatient(entity.getPatient());
@@ -57,6 +57,15 @@ public class VisitBuilder extends TestDataBuilder<Visit> {
         entity.setPatient(patient);
         return this;
     }
+
+    public VisitBuilder patient(Integer patientId) {
+        Patient p = testDataManager.getPatientService().getPatient(patientId);
+        if (p == null) {
+            throw new IllegalArgumentException("No patient with id " + patientId);
+        }
+        return patient(p);
+    }
+
 
     public VisitBuilder started(Date date) {
         entity.setStartDatetime(date);
@@ -83,9 +92,36 @@ public class VisitBuilder extends TestDataBuilder<Visit> {
         return this;
     }
 
+    public VisitBuilder location(Integer locationId) {
+        Location loc = testDataManager.getLocationService().getLocation(locationId);
+        if (loc == null) {
+            throw new IllegalArgumentException("No Location with id " + locationId);
+        }
+        return location(loc);
+    }
+
+    public VisitBuilder location(String nameOrUuid) {
+        Location loc = testDataManager.getLocationService().getLocation(nameOrUuid);
+        if (loc == null) {
+            loc = testDataManager.getLocationService().getLocationByUuid(nameOrUuid);
+        }
+        if (loc == null) {
+            throw new IllegalArgumentException("No Location with name or uuid " + nameOrUuid);
+        }
+        return location(loc);
+    }
+
     public VisitBuilder visitType(VisitType visitType) {
         entity.setVisitType(visitType);
         return this;
+    }
+
+    public VisitBuilder visitType(Integer visitTypeId) {
+        VisitType vt = Context.getVisitService().getVisitType(visitTypeId);
+        if (vt == null) {
+            throw new IllegalArgumentException("No VisitType with id " + visitTypeId);
+        }
+        return visitType(vt);
     }
 
     public VisitBuilder dateCreated(Date dateCreated) {
