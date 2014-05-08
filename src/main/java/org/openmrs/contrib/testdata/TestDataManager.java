@@ -14,6 +14,7 @@ import org.openmrs.Location;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.EncounterService;
+import org.openmrs.api.FormService;
 import org.openmrs.api.LocationService;
 import org.openmrs.api.ObsService;
 import org.openmrs.api.OpenmrsService;
@@ -70,6 +71,9 @@ public class TestDataManager {
     @Autowired @Qualifier("encounterService")
     private EncounterService encounterService;
 
+	@Autowired @Qualifier("formService")
+	private FormService formService;
+
     @Autowired @Qualifier("obsService")
     private ObsService obsService;
 
@@ -119,6 +123,14 @@ public class TestDataManager {
     public void setEncounterService(EncounterService encounterService) {
         this.encounterService = encounterService;
     }
+
+	public FormService getFormService() {
+		return formService;
+	}
+
+	public void setFormService(FormService formService) {
+		this.formService = formService;
+	}
 
     public ObsService getObsService() {
         return obsService;

@@ -7,6 +7,7 @@ import org.openmrs.ConceptName;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterRole;
 import org.openmrs.EncounterType;
+import org.openmrs.Form;
 import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
@@ -94,6 +95,30 @@ public class EncounterBuilder extends TestDataBuilder<Encounter> {
         }
         return encounterType(et);
     }
+
+	public EncounterBuilder form(Form form) {
+		entity.setForm(form);
+		return this;
+	}
+
+	public EncounterBuilder form(Integer formId) {
+		Form form = testDataManager.getFormService().getForm(formId);
+		if (form == null) {
+			throw new IllegalArgumentException("No Form with id " + formId);
+		}
+		return form(form);
+	}
+
+	public EncounterBuilder form(String nameOrUuid) {
+		Form form = testDataManager.getFormService().getForm(nameOrUuid);
+		if (form == null) {
+			form = testDataManager.getFormService().getFormByUuid(nameOrUuid);
+		}
+		if (form == null) {
+			throw new IllegalArgumentException("No Form with name or uuid " + nameOrUuid);
+		}
+		return form(form);
+	}
 
     public EncounterBuilder provider(EncounterRole role, Provider provider) {
         entity.addProvider(role, provider);

@@ -20,6 +20,7 @@ import org.mockito.stubbing.Answer;
 import org.openmrs.Concept;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
+import org.openmrs.Form;
 import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
@@ -53,6 +54,7 @@ public class EncounterBuilderTest {
         Patient patient = new Patient();
         Location location = new Location();
         EncounterType encounterType = new EncounterType();
+		Form form = new Form();
         Date date = new Date();
 
         Encounter encounter = testDataManager.encounter()
@@ -60,6 +62,7 @@ public class EncounterBuilderTest {
                 .location(location)
                 .encounterDatetime(date)
                 .encounterType(encounterType)
+				.form(form)
                 .obs(weight, 70)
                 .obs(profession, softwareDeveloper)
                 .save();
@@ -67,6 +70,7 @@ public class EncounterBuilderTest {
         assertThat(encounter.getPatient(), is(patient));
         assertThat(encounter.getLocation(), is(location));
         assertThat(encounter.getEncounterType(), is(encounterType));
+		assertThat(encounter.getForm(), is(form));
         assertThat(encounter.getEncounterDatetime(), is(date));
         assertThat(encounter.getObs(), IsIterableContainingInAnyOrder.containsInAnyOrder(
                 obsLike(patient, location, date, weight, 70d),
