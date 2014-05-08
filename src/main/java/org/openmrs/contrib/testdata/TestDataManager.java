@@ -1,12 +1,5 @@
 package org.openmrs.contrib.testdata;
 
-import static org.databene.benerator.util.SimpleRandom.randomInt;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openmrs.EncounterType;
@@ -23,11 +16,11 @@ import org.openmrs.api.PersonService;
 import org.openmrs.api.ProgramWorkflowService;
 import org.openmrs.api.UserService;
 import org.openmrs.contrib.testdata.builder.EncounterBuilder;
+import org.openmrs.contrib.testdata.builder.LocationBuilder;
 import org.openmrs.contrib.testdata.builder.ObsBuilder;
 import org.openmrs.contrib.testdata.builder.PatientBuilder;
 import org.openmrs.contrib.testdata.builder.PatientProgramBuilder;
 import org.openmrs.contrib.testdata.builder.ProviderBuilder;
-import org.openmrs.contrib.testdata.builder.TestDataBuilder;
 import org.openmrs.contrib.testdata.builder.UserBuilder;
 import org.openmrs.contrib.testdata.builder.VisitBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -207,6 +200,11 @@ public class TestDataManager {
 
     public EncounterBuilder encounter() {
         EncounterBuilder builder = new EncounterBuilder(this);
+        return builder;
+    }
+
+    public LocationBuilder location() {
+        LocationBuilder builder = new LocationBuilder(this);
         return builder;
     }
 

@@ -1,7 +1,5 @@
 package org.openmrs.contrib.testdata.builder;
 
-import java.util.Date;
-
 import org.openmrs.Concept;
 import org.openmrs.ConceptName;
 import org.openmrs.Encounter;
@@ -15,6 +13,8 @@ import org.openmrs.Provider;
 import org.openmrs.User;
 import org.openmrs.Visit;
 import org.openmrs.contrib.testdata.TestDataManager;
+
+import java.util.Date;
 
 /**
  *
@@ -224,12 +224,12 @@ public class EncounterBuilder extends TestDataBuilder<Encounter> {
     }
 
     public EncounterBuilder dateVoided(Date dateVoided) {
-        entity.setDateCreated(dateVoided);
+        entity.setDateVoided(dateVoided);
         return this;
     }
 
     public EncounterBuilder dateVoided(String dateVoided) {
-        entity.setDateCreated(parseDate(dateVoided));
+        entity.setDateVoided(parseDate(dateVoided));
         return this;
     }
 
