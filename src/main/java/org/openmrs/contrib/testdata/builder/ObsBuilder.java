@@ -1,13 +1,13 @@
 package org.openmrs.contrib.testdata.builder;
 
-import java.util.Date;
-
 import org.openmrs.Concept;
 import org.openmrs.Encounter;
 import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.Person;
 import org.openmrs.contrib.testdata.TestDataManager;
+
+import java.util.Date;
 
 /**
  *
@@ -42,6 +42,11 @@ public class ObsBuilder extends TestDataBuilder<Obs> {
         maybeCopyProperty(encounter, "encounterDatetime", entity, "obsDatetime");
         maybeCopyProperty(encounter, "location", entity, "location");
         maybeCopyProperty(encounter, "patient", entity, "person");
+        return this;
+    }
+
+    public ObsBuilder obs (Obs obs) {
+        entity.addGroupMember(obs);
         return this;
     }
 

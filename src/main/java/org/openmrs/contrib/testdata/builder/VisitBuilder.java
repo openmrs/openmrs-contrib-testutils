@@ -36,7 +36,7 @@ public class VisitBuilder extends TestDataBuilder<Visit> {
         return entity;
     }
 
-    public VisitBuilder visit(Encounter encounter) {
+    public VisitBuilder encounter(Encounter encounter) {
 
         encounter.setVisit(entity);
         encounter.setPatient(entity.getPatient());
