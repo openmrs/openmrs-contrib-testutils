@@ -5,6 +5,7 @@ import org.openmrs.Encounter;
 import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.Person;
+import org.openmrs.User;
 import org.openmrs.contrib.testdata.TestDataManager;
 
 import java.util.Date;
@@ -98,5 +99,39 @@ public class ObsBuilder extends TestDataBuilder<Obs> {
         entity.setValueDatetime(valueDatetime);
         return this;
     }
+
+    public ObsBuilder voided(boolean voided) {
+        entity.setVoided(voided);
+        return this;
+    }
+
+    public ObsBuilder voidedBy(User voidedBy) {
+        entity.setVoidedBy(voidedBy);
+        return this;
+    }
+
+    public ObsBuilder voidedBy(Integer userId) {
+        User u = testDataManager.getUserService().getUser(userId);
+        if (u == null) {
+            throw new IllegalArgumentException("No user with id " + userId);
+        }
+        return voidedBy(u);
+    }
+
+    public ObsBuilder dateVoided(Date dateVoided) {
+        entity.setDateVoided(dateVoided);
+        return this;
+    }
+
+    public ObsBuilder dateVoided(String dateVoided) {
+        entity.setDateVoided(parseDate(dateVoided));
+        return this;
+    }
+
+    public ObsBuilder voidReason(String voidReason) {
+        entity.setVoidReason(voidReason);
+        return this;
+    }
+
 
 }
