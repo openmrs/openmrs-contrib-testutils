@@ -1,6 +1,7 @@
 package org.openmrs.contrib.testdata.builder;
 
 import org.openmrs.Concept;
+import org.openmrs.Drug;
 import org.openmrs.Encounter;
 import org.openmrs.Location;
 import org.openmrs.Obs;
@@ -97,6 +98,11 @@ public class ObsBuilder extends TestDataBuilder<Obs> {
 
     public ObsBuilder value(Date valueDatetime) {
         entity.setValueDatetime(valueDatetime);
+        return this;
+    }
+
+    public ObsBuilder value(Drug valueDrug) {
+        entity.setValueDrug(valueDrug);
         return this;
     }
 
