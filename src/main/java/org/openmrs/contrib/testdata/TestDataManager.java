@@ -15,6 +15,7 @@ import org.openmrs.api.PatientService;
 import org.openmrs.api.PersonService;
 import org.openmrs.api.ProgramWorkflowService;
 import org.openmrs.api.UserService;
+import org.openmrs.contrib.testdata.builder.ConceptBuilder;
 import org.openmrs.contrib.testdata.builder.EncounterBuilder;
 import org.openmrs.contrib.testdata.builder.LocationBuilder;
 import org.openmrs.contrib.testdata.builder.ObsBuilder;
@@ -217,6 +218,11 @@ public class TestDataManager {
         return provider()
                 .name(randomElement(FAMILY_NAMES))
                 .identifier(generateRandomIdentifier());
+    }
+
+    public ConceptBuilder concept() {
+        ConceptBuilder builder = new ConceptBuilder(this);
+        return builder;
     }
 
     /**
