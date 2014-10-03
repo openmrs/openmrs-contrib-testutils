@@ -3,7 +3,7 @@
 
     <groupId>org.openmrs.contrib</groupId>
     <artifactId>testutils</artifactId>
-    <version>1.4-SNAPSHOT</version>
+    <version>1.5-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>testutils</name>
@@ -72,6 +72,14 @@
                         <target>1.6</target>
                         <source>1.6</source>
                     </configuration>
+                </plugin>
+                <!-- The 2.10 version of this plugin released in Sept 2014 leads to opaque errors and a lot of:
+                 [ERROR] java.lang.ClassCastException: com.sun.tools.javadoc.ClassDocImpl cannot be cast to com.sun.javadoc.AnnotationTypeDoc
+                    http://jira.codehaus.org/browse/MJAVADOC-408                 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.9.1</version>
                 </plugin>
             </plugins>
         </pluginManagement>
