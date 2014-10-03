@@ -3,7 +3,7 @@
 
     <groupId>org.openmrs.contrib</groupId>
     <artifactId>testutils</artifactId>
-    <version>1.5-SNAPSHOT</version>
+    <version>1.5</version>
     <packaging>jar</packaging>
 
     <name>testutils</name>
