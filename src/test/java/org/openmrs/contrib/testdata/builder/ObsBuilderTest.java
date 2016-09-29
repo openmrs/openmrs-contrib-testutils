@@ -66,7 +66,7 @@ public class ObsBuilderTest {
         assertThat(obs.getGroupMembers(), hasItem(memberObs2));
 
         assertThat(testDataManager.numEntitiesCreated(), is(1));
-        verify(obsService).saveObs(obs, null);
+        verify(obsService).saveObs(obs, "unit testing");
     }
 
 }

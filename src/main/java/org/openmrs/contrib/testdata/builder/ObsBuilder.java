@@ -24,7 +24,7 @@ public class ObsBuilder extends TestDataBuilder<Obs> {
 
     @Override
     public Obs save() {
-        Obs created = testDataManager.getObsService().saveObs(entity, null);
+        Obs created = testDataManager.getObsService().saveObs(entity, "unit testing");
         testDataManager.created(Obs.class, created);
         return created;
     }

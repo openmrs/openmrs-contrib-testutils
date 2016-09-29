@@ -36,6 +36,13 @@ public class ProviderBuilder extends TestDataBuilder<Provider> {
 
     public ProviderBuilder name(String name) {
         entity.setName(name);
+        Person person = new Person();
+        person.setGender("M");
+        PersonName pn = new PersonName();
+        pn.setFamilyName(name);
+        pn.setGivenName(name);
+        person.addName(pn);
+        entity.setPerson(person);
         return this;
     }
 
