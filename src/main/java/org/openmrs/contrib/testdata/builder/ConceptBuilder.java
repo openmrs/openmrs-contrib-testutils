@@ -16,10 +16,11 @@ import java.util.Locale;
 
 public class ConceptBuilder extends TestDataBuilder<Concept> {
 
-    private Concept entity = new Concept();
+    protected Concept entity;
 
     public ConceptBuilder(TestDataManager testDataManager) {
         super(testDataManager);
+        entity = new Concept();
     }
 
     @Override
