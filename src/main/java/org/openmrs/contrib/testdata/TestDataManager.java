@@ -216,8 +216,10 @@ public class TestDataManager {
     }
 
     public ProviderBuilder randomProvider() {
+        String gender = randomElement(GENDERS);
         return provider()
-                .name(randomElement(FAMILY_NAMES))
+                .gender(gender)
+                .personName(randomElement(gender.equals("M") ? MALE_FIRST_NAMES : FEMALE_FIRST_NAMES), null, randomElement(FAMILY_NAMES))
                 .identifier(generateRandomIdentifier());
     }
 
