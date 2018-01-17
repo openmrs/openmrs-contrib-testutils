@@ -31,7 +31,7 @@ public class UserBuilder extends TestDataBuilder<User> {
 
     @Override
     public User save() {
-        User created = testDataManager.getUserService().saveUser(entity, password);
+        User created = testDataManager.getUserService().createUser(entity, password);
         testDataManager.created(User.class, created);
         return created;
     }
