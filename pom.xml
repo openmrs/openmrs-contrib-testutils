@@ -60,19 +60,6 @@
             <scope>provided</scope>
             <type>pom</type>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.databene/databene-benerator -->
-        <dependency>
-            <groupId>org.databene</groupId>
-            <artifactId>databene-benerator</artifactId>
-            <version>0.5.9</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.hsqldb/hsqldb -->
-        <dependency>
-            <groupId>org.hsqldb</groupId>
-            <artifactId>hsqldb</artifactId>
-            <version>2.4.1</version>
-        </dependency>
-
     </dependencies>
 
     <build>
