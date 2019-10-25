@@ -3,7 +3,7 @@
 
     <groupId>org.openmrs.contrib</groupId>
     <artifactId>testutils</artifactId>
-    <version>1.7.0</version>
+    <version>1.7.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>testutils</name>
@@ -13,7 +13,7 @@
         <connection>scm:git:git@github.com:openmrs/openmrs-contrib-testutils.git</connection>
         <developerConnection>scm:git:git@github.com:openmrs/openmrs-contrib-testutils.git</developerConnection>
         <url>https://github.com/openmrs/openmrs-contrib-testutils/</url>
-        <tag>testutils-1.7.0</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>
