@@ -15,6 +15,7 @@ import org.openmrs.api.PatientService;
 import org.openmrs.api.PersonService;
 import org.openmrs.api.ProgramWorkflowService;
 import org.openmrs.api.UserService;
+import org.openmrs.api.VisitService;
 import org.openmrs.contrib.testdata.builder.ConceptBuilder;
 import org.openmrs.contrib.testdata.builder.ConceptNumericBuilder;
 import org.openmrs.contrib.testdata.builder.EncounterBuilder;
@@ -65,6 +66,9 @@ public class TestDataManager {
 
     @Autowired @Qualifier("encounterService")
     private EncounterService encounterService;
+
+    @Autowired @Qualifier("visitService")
+    private VisitService visitService;
 
 	@Autowired @Qualifier("formService")
 	private FormService formService;
@@ -119,7 +123,15 @@ public class TestDataManager {
         this.encounterService = encounterService;
     }
 
-	public FormService getFormService() {
+    public VisitService getVisitService() {
+        return visitService;
+    }
+
+    public void setVisitService(VisitService visitService) {
+        this.visitService = visitService;
+    }
+
+    public FormService getFormService() {
 		return formService;
 	}
 

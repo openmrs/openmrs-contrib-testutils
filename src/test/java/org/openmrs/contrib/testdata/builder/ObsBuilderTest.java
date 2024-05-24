@@ -17,6 +17,7 @@ import org.openmrs.Encounter;
 import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.Person;
+import org.openmrs.api.EncounterService;
 import org.openmrs.api.ObsService;
 import org.openmrs.contrib.testdata.TestDataManager;
 
@@ -26,10 +27,12 @@ public class ObsBuilderTest {
 
     private TestDataManager testDataManager;
     private ObsService obsService;
+    private EncounterService encounterService;
 
     @Before
     public void setUp() throws Exception {
         obsService = mock(ObsService.class);
+        encounterService = mock(EncounterService.class);
         when(obsService.saveObs(any(Obs.class), any(String.class))).thenAnswer(new Answer<Obs>() {
             @Override
             public Obs answer(InvocationOnMock invocation) throws Throwable {
@@ -39,6 +42,7 @@ public class ObsBuilderTest {
 
         testDataManager = new TestDataManager();
         testDataManager.setObsService(obsService);
+        testDataManager.setEncounterService(encounterService);
     }
 
     @Test

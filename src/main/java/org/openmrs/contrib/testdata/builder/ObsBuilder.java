@@ -26,6 +26,10 @@ public class ObsBuilder extends TestDataBuilder<Obs> {
     public Obs save() {
         Obs created = testDataManager.getObsService().saveObs(entity, null);
         testDataManager.created(Obs.class, created);
+        if (created.getEncounter() != null && !created.getEncounter().getObs().contains(created)) {
+            created.getEncounter().addObs(created);
+            testDataManager.getEncounterService().saveEncounter(created.getEncounter());
+        }
         return created;
     }
 
